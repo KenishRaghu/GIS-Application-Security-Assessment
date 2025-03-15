@@ -1,0 +1,9 @@
+{
+  "burp_api_base": "http://127.0.0.1:1337",
+  "burp_api_key": "YOUR_BURP_API_KEY",
+  "scan_depth": 5,
+  "scope": {
+    "include": ["https://your-gis-app.example.com"],
+    "exclude": ["https://cdn.example.com"]
+  }
+}

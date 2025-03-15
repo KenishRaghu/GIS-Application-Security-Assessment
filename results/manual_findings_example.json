@@ -1,0 +1,16 @@
+[
+  {
+    "name": "Default credentials accepted",
+    "severity": "critical",
+    "url": "https://example-gis.app/login",
+    "description": "Admin account accepts admin/admin",
+    "remediation": "Change default passwords; enforce strong policy"
+  },
+  {
+    "name": "Session fixation",
+    "severity": "high",
+    "url": "https://example-gis.app/",
+    "description": "Session ID not regenerated after login",
+    "remediation": "Regenerate session ID on authentication"
+  }
+]

@@ -5,3 +5,7 @@ __pycache__/
 venv/
 *.json
 !package.json
+!**/scan_config.example.json
+!**/manual_findings_example.json
+results/burp_scan*.json
+results/attack_surface.json

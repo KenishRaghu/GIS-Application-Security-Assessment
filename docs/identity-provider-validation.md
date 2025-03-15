@@ -1,19 +1,66 @@
-# Identity Provider Integration — LDAP & Active Directory
+# Identity provider integration — LDAP & Active Directory
 
 ## Scope
 
-Validation of identity provider integration with LDAP and Active Directory and review of security hardening configurations.
+Validation of identity provider integration with LDAP and Active Directory and security hardening.
 
-## Validation Activities
+## LDAP testing
 
-- Verified LDAP bind and search base configuration; confirmed use of dedicated service account with minimal privileges
-- Validated Active Directory integration (Kerberos/NTLM) and secure channel requirements
-- Reviewed and validated security hardening: LDAPS only, certificate validation, lockout and password policy alignment
-- Confirmed group-to-role mapping and that GIS application respects AD/LDAP group membership for access control
+### Encryption
 
-## Security Hardening Configurations Validated
+| Check | Expected | Result |
+|-------|----------|--------|
+| LDAPS (port 636) | Use 636, not 389 | |
+| Plain LDAP (389) | Avoid; passwords in clear text | |
+
+### Certificate validation
+
+| Check | Expected | Result |
+|-------|----------|--------|
+| SSL/TLS cert validated | No "ignore cert" | |
+| Self-signed rejection | App rejects or warns | |
+
+### Service account
+
+| Check | Expected | Result |
+|-------|----------|--------|
+| Bind DN permissions | Read-only user/group data | |
+| Principle of least privilege | No create/delete users | |
+
+## Active Directory testing
+
+### Authentication
+
+| Check | Expected | Result |
+|-------|----------|--------|
+| Kerberos/NTLM | Works over secure channel | |
+| Secure channel | HTTPS or LDAPS | |
+
+### Group mapping
+
+| Check | Expected | Result |
+|-------|----------|--------|
+| AD groups → GIS roles | Correct mapping | |
+| Role change propagation | Immediate effect on GIS permissions | |
+| Session invalidation | Old session loses access on group change | |
+
+### Password policies
+
+| Check | Expected | Result |
+|-------|----------|--------|
+| Complexity | Matches org standards | |
+| Expiry, lockout | Aligned | |
+
+### Credential storage
+
+| Check | Expected | Result |
+|-------|----------|--------|
+| No hardcoded creds | Use vault or managed identity | |
+| Config files | No plaintext LDAP/AD passwords | |
+
+## Security hardening validated
 
 - LDAPS (port 636) enforced; StartTLS where applicable
 - Certificate chain validation enabled
 - Account lockout and password policy consistent with organizational standards
-- No storage of LDAP/AD credentials in application config; use of managed identities or vault where applicable
+- No storage of LDAP/AD credentials in application config; use managed identities or vault where applicable

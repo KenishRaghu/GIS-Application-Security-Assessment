@@ -1,19 +1,58 @@
-# GIS Web Application — Penetration Testing Findings
+# GIS web application - penetration testing findings
 
 ## Scope
 
-Penetration testing performed on the GIS web application with focus on authentication and authorization.
+Penetration testing performed on the GIS web application with focus on:
+- Authentication and authorization
+- Session management
+- API access control
+- IDOR and privilege escalation
+- Security misconfigurations
 
-## Authentication & Authorization Vulnerabilities Identified
+## Summary
 
-- Weak or default credentials on administrative endpoints
-- Session fixation and insufficient session invalidation on role change
-- Privilege escalation via parameter tampering (e.g., role/tenant ID)
-- Missing or inconsistent authorization checks on map/data APIs
-- Insecure direct object references (IDOR) on layer and project resources
+- **CRITICAL:** 1
+- **HIGH:** 2
+- **LOW:** 1
+
+## Findings
+
+### 1. Default credentials accepted [CRITICAL] (manual)
+
+- **URL:** https://example-gis.app/login
+- **Description:** Admin account accepts admin/admin
+- **Remediation:** Change default passwords; enforce strong policy
+
+---
+
+### 2. SQL injection [HIGH] (automated)
+
+- **URL:** https://example.com/api/search
+- **Description:** Parameter q is vulnerable to SQL injection.
+- **Remediation:** Use parameterized queries.
+
+---
+
+### 3. Session fixation [HIGH] (manual)
+
+- **URL:** https://example-gis.app/
+- **Description:** Session ID not regenerated after login
+- **Remediation:** Regenerate session ID on authentication
+
+---
+
+### 4. Missing X-Content-Type-Options header [LOW] (automated)
+
+- **URL:** https://example.com/
+- **Description:** 
+- **Remediation:** 
+
+---
 
 ## Recommendations
 
 - Enforce MFA for admin and elevated roles
-- Implement consistent RBAC and server-side authorization checks
-- Invalidate sessions on privilege change and use secure session binding
+- Implement RBAC and server-side authorization on every API call
+- Invalidate sessions on privilege change; use secure session binding
+- Use LDAPS with certificate pinning
+- Fix all critical and high findings before production

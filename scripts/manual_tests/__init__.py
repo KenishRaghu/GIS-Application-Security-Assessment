@@ -1,0 +1,1 @@
+# Manual penetration testing helpers
